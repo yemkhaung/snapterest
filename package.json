@@ -1,0 +1,29 @@
+{
+  "name": "snapterest",
+  "version": "1.0.0",
+  "description": "Pinterest like app using Twitter API",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack -p --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yemkhaung/snapterest.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yemkhaung/snapterest/issues"
+  },
+  "homepage": "https://github.com/yemkhaung/snapterest#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
+  }
+}

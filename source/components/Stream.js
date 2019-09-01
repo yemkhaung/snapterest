@@ -1,11 +1,13 @@
-import react, {Component} from 'react';
+import React, {Component} from 'react';
 import SnapkiteStreamClient from 'snapkite-stream-client';
 
 import StreamTweet from './StreamTweet';
 import Header from './Header';
 
 class Stream extends Component {
-    state = {}
+    state = {
+        tweet: null
+    }
 
     componentDidMount = () => {
         SnapkiteStreamClient.initialiseStream(this.handleNewTweet);

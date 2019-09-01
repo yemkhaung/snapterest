@@ -5,6 +5,9 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     filename: "snapterest.js"
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'build')
+  },
   module: {
     rules: [
       {

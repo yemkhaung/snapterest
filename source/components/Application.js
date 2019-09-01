@@ -1,4 +1,4 @@
-import react, {Component} from 'react';
+import React, {Component} from 'react';
 import Stream from './Stream';
 import Collection from './Collection';
 

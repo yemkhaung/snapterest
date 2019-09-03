@@ -8,7 +8,7 @@ class Application extends Component {
     }
 
     addTweetToCollection = (tweet) => {
-        const {currentCollection} = this.state;
+        const {collectionTweets} = this.state;
 
         collectionTweets[tweet.id] = tweet;
 

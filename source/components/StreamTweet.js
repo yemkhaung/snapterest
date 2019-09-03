@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
 import Header from './Header';
 import Tweet from './Tweet';
@@ -9,7 +10,7 @@ class StreamTweet extends Component {
         headerText: null
     }
 
-    componentWillMount() {
+    componentWillMount = () => {
         console.log('[Snapterest] StreamTweet: 1. Running componentWillMount()');
         this.setState({
             numCharIsInc: true,
@@ -22,10 +23,23 @@ class StreamTweet extends Component {
         }
     }
 
-    component
+    componentDidMount = () => {
+        console.log('[Snapterest] StreamTweet: 3. Running componentDidMount()');
+
+        const componentDOM = ReactDOM.findDOMNode(this);
+
+        window.snapterest.headerHTML = componentDOM.children[0].outerHTML;
+        window.snapterest.tweetHTML = componentDOM.children[1].outerHTML;
+    }
+
+    componentWillUnmount = () => {
+        console.log('[Snapterest] StreamTweet: 4. Running componentWillUnmount()');
+
+        delete window.snapterest;
+    }
 
     render() {
-        console.log('[Snapterest] StreamTweet: Running render()');
+        console.log('[Snapterest] StreamTweet: 2. Running render()');
 
         const {headerText} = this.state;
         const {tweet, onAddTweetToCollection} = this.props;

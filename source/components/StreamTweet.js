@@ -23,6 +23,34 @@ class StreamTweet extends Component {
         }
     }
 
+    componentWillReceiveProps = (nextProps) => {
+        console.log('[Snapterest] StreamTweet: 2. Running componentWillReceiveProps()');
+
+        const {tweet: currentTweet} = this.props;
+        const {tweet: nextTweet} = nextProps;
+
+        const currentTweetLength = currentTweet.text.length;
+        const nextTweetLength = nextTweet.text.length;
+        const isNumOfCharsIncr = (nextTweetLength > currentTweetLength);
+        let headerText;
+
+        this.setState({
+            numCharIsInc: isNumOfCharsIncr
+        });
+
+        if(isNumOfCharsIncr) {
+            headerText = 'Number of characters is increasing';
+        } else {
+            headerText = 'Latest public photo from Twitter';
+        }
+
+        this.setState({
+            headerText
+        });
+
+        window.snapterest.numReceivedTweets++;
+    }
+
     componentDidMount = () => {
         console.log('[Snapterest] StreamTweet: 3. Running componentDidMount()');
 
@@ -32,6 +60,21 @@ class StreamTweet extends Component {
         window.snapterest.tweetHTML = componentDOM.children[1].outerHTML;
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => {
+        console.log('[Snapterest] StreamTweet: 5. Running shouldComponentUpdate()');
+
+        return (nextProps.tweet.text.length > 1);
+    }
+
+    componentWillUpdate = () => {
+        console.log('[Snapterest] StreamTweet: 6. Running componentWillUpdate()');
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        console.log('[Snapterest] StreamTweet: 7. Running componentDidUpdate()');
+        window.snapterest.numDisplayedTweets++;
+    }
+
     componentWillUnmount = () => {
         console.log('[Snapterest] StreamTweet: 4. Running componentWillUnmount()');
 
@@ -39,7 +82,7 @@ class StreamTweet extends Component {
     }
 
     render() {
-        console.log('[Snapterest] StreamTweet: 2. Running render()');
+        console.log('[Snapterest] StreamTweet: Running render()');
 
         const {headerText} = this.state;
         const {tweet, onAddTweetToCollection} = this.props;

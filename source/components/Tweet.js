@@ -9,6 +9,12 @@ const tweetStyle = {
   margin: "10px"
 };
 
+const pStyle = {
+  fontSize: '14px',
+  fontWeight: '300',
+  display: 'inline-block'
+};
+
 const imageStyle = {
   maxHeight: "400px",
   maxWidth: "100%",
@@ -30,6 +36,7 @@ class Tweet extends Component {
 
     return (
       <div style={tweetStyle}>
+        <p style={pStyle}>{tweet.text}</p>
         <img
           src={tweetMediaUrl}
           style={imageStyle}
@@ -40,6 +47,7 @@ class Tweet extends Component {
   }
 }
 
+// validate properties
 Tweet.PropTypes = {
   tweet: (properties, propertyName, componentName) => {
     const tweet = properties[propertyName];

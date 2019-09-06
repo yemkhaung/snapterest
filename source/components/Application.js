@@ -47,7 +47,7 @@ class Application extends Component {
                         <Stream onAddTweetToCollection={addTweetToCollection} />
                     </div>
                     <div className="col-md-8">
-                        <Collection 
+                        <Collection
                             tweets={this.state.collectionTweets}
                             onRemoveTweetFromCollection={removeTweetFromCollection}
                             onRemoveAllTweetsFromCollection={removeAllTweetsFromCollection}

@@ -8,6 +8,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'build')
   },
+  devtool: "inline-source-map",
   module: {
     rules: [
       {

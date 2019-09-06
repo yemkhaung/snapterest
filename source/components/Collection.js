@@ -23,7 +23,9 @@ class Collection extends Component {
     return Object.keys(this.props.tweets);
   };
 
-  getNumTweetCollection = () => this.getTweetIdsList().length;
+  getNumTweetCollection = () => {
+    return this.getTweetIdsList().length;
+  };
 
   render() {
     const numTweetInCollection = this.getNumTweetCollection();
@@ -40,7 +42,7 @@ class Collection extends Component {
       return (
         <div>
           <CollectionControls
-            numberOfTweetsInCollection={numTweetinCollection}
+            numberOfTweetsInCollection={numTweetInCollection}
             htmlMarkup={htmlMarkup}
             onRemoveAllTweetsFromCollection={onRemoveAllTweetsFromCollection}
           />
@@ -53,7 +55,7 @@ class Collection extends Component {
       );
     }
 
-    return <Header text="Your collection is empty" />
+    return <Header text="Your collection is empty" />;
   }
 }
 

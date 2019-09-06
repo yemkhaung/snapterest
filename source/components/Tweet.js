@@ -10,9 +10,9 @@ const tweetStyle = {
 };
 
 const pStyle = {
-  fontSize: '14px',
-  fontWeight: '300',
-  display: 'inline-block'
+  fontSize: "14px",
+  fontWeight: "300",
+  display: "inline-block"
 };
 
 const imageStyle = {
@@ -23,7 +23,7 @@ const imageStyle = {
 };
 
 class Tweet extends Component {
-  handleImageClick() {
+  handleImageClick = () => {
     const { tweet, onImageClick } = this.props;
     if (onImageClick) {
       onImageClick(tweet);
@@ -53,10 +53,10 @@ Tweet.PropTypes = {
     const tweet = properties[propertyName];
 
     if (!tweet) {
-      return new Error('Tweet must be set');
+      return new Error("Tweet must be set");
     }
     if (!tweet.media) {
-      return new Error('Tweet must have an image');
+      return new Error("Tweet must have an image");
     }
   },
   onImageClick: PropTypes.func

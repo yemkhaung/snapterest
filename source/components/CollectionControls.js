@@ -16,14 +16,14 @@ class CollectionControls extends Component {
 
     let text;
     if (numTweetsInCollection == 1) {
-      text = `${text} tweet in your`;
+      text = `${numTweetsInCollection} tweet in your`;
     } else {
-      text = `${text} tweets in your`;
+      text = `${numTweetsInCollection} tweets in your`;
     }
 
     return (
         <span>
-            {text} <strong>name</strong> collection
+            {text} <strong>{name}</strong> collection
         </span>
     );
   };

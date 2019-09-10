@@ -28,7 +28,7 @@ class Collection extends Component {
     createHTMLMarkupStr = () => {
         const { collectionTweets } = this.state;
         const htmlStr = ReactDOMServer.renderToStaticMarkup(
-            <TweetList tweets={collectionTweets} />
+            <TweetList tweets={collectionTweets} isExport={true} />
         );
 
         const htmlMarkup = {

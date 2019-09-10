@@ -16,21 +16,20 @@ class TweetList extends Component {
     };
 
     getTweetElement = tweetId => {
-        const { tweets } = this.props;
-        const onRemoveTweetFromCollection = this.removeTweetFromCollection;
+        const { tweets, isExport } = this.props;
         const tweet = tweets[tweetId];
 
         let tweetElement;
 
-        if (onRemoveTweetFromCollection) {
+        if (isExport) {
+            tweetElement = <Tweet tweet={tweet} />;
+        } else {
             tweetElement = (
                 <Tweet
                     tweet={tweet}
-                    onImageClick={onRemoveTweetFromCollection}
+                    onImageClick={this.removeTweetFromCollection}
                 />
             );
-        } else {
-            tweetElement = <Tweet tweet={tweet} />;
         }
 
         return (

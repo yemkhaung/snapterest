@@ -25,7 +25,6 @@ class Stream extends Component {
 
     render() {
         const { tweet } = this.state;
-        const { onAddTweetToCollection } = this.props;
         const headerText = "Waiting for public photos from Twitter...";
 
         if (tweet) {

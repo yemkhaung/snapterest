@@ -1,47 +1,52 @@
 import React, { Component } from "react";
-import TweetUtils from "./utils/TweetUtils";
 import Tweet from "./Tweet";
+import CollectionActionCreators from "../actions/CollectionActionCreators";
 
 const listStyle = {
-  padding: 0
+    padding: 0
 };
 const listItemStyle = {
-  display: "inline-block",
-  listStyle: "none"
+    display: "inline-block",
+    listStyle: "none"
 };
 
 class TweetList extends Component {
-  getTweetElement = (tweetId) => {
-    const { tweets, onRemoveTweetFromCollection } = this.props;
-    const tweet = tweets[tweetId];
+    removeTweetFromCollection = tweet => {
+        CollectionActionCreators.removeTweetFromCollection(tweet.id);
+    };
 
-    let tweetElement;
+    getTweetElement = tweetId => {
+        const { tweets } = this.props;
+        const onRemoveTweetFromCollection = this.removeTweetFromCollection;
+        const tweet = tweets[tweetId];
 
-    if (onRemoveTweetFromCollection) {
-      tweetElement = (
-        <Tweet tweet={tweet} onImageClick={onRemoveTweetFromCollection} />
-      );
-    } else {
-      tweetElement = <Tweet tweet={tweet} />;
-    }
+        let tweetElement;
 
-    return (
-      <li style={listItemStyle} key={tweet.id}>
-        {tweetElement}
-      </li>
-    );
-  };
+        if (onRemoveTweetFromCollection) {
+            tweetElement = (
+                <Tweet
+                    tweet={tweet}
+                    onImageClick={onRemoveTweetFromCollection}
+                />
+            );
+        } else {
+            tweetElement = <Tweet tweet={tweet} />;
+        }
 
-  render() {
-    const { tweets } = this.props;
-
-    const tweetElements = Object.keys(tweets)
-        .map(
-            this.getTweetElement
+        return (
+            <li style={listItemStyle} key={tweet.id}>
+                {tweetElement}
+            </li>
         );
+    };
 
-    return <ul style={listStyle}>{tweetElements}</ul>;
-  }
+    render() {
+        const { tweets } = this.props;
+
+        const tweetElements = Object.keys(tweets).map(this.getTweetElement);
+
+        return <ul style={listStyle}>{tweetElements}</ul>;
+    }
 }
 
 export default TweetList;

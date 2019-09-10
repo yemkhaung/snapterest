@@ -1,65 +1,58 @@
-import React, {Component} from 'react';
-import Header from './Header';
-import Button from './Button';
+import React, { Component } from "react";
+import Header from "./Header";
+import Button from "./Button";
+import CollectionActionCreators from "../actions/CollectionActionCreators";
+import CollectionStore from "../stores/CollectionStore";
 
 const inputStyle = {
-    marginRight: '5px'
+    marginRight: "5px"
 };
 
 class CollectionRenameForm extends Component {
+    state = {
+        inputValue: CollectionStore.getCollectionName()
+    };
 
-    constructor(props) {
-        super(props);
-
-        const {name} = props;
-
-        this.state = {
-            inputValue: name
-        };
-    }
-
-    setInputValue = (inputValue) => {
+    setInputValue = inputValue => {
         this.setState({
             inputValue
         });
-    }
+    };
 
     componentDidMount() {
         this.collectionNameInput.focus();
     }
 
-    handleSubmit = () => {
-
-    }
-
-    handleInputValueChange = (event) => {
+    handleInputValueChange = event => {
         const inputValue = event.target.value;
         this.setInputValue(inputValue);
-    }
+    };
 
-    handleFormSubmit = (event) => {
+    handleFormSubmit = event => {
         event.preventDefault();
 
-        const {inputValue: collectionName} = this.state;
-        const {onChangeCollectionName} = this.props;
+        const { onCancelCollectionNameChange } = this.props;
+        const { inputValue: collectionName } = this.state;
 
-        onChangeCollectionName(collectionName);
-    }
-
-    handleFormCancel = (event) => {
-        event.preventDefault();
-
-        const {onCancelCollectionNameChange} = this.props;
-
+        CollectionActionCreators.setCollectionName(collectionName);
         onCancelCollectionNameChange();
-    }
+    };
+
+    handleFormCancel = event => {
+        event.preventDefault();
+
+        const { onCancelCollectionNameChange } = this.props;
+        const collectionName = CollectionStore.getCollectionName();
+
+        this.setInputValue(collectionName);
+        onCancelCollectionNameChange();
+    };
 
     render() {
-        const {inputValue} = this.state;
-        
+        const { inputValue } = this.state;
+
         return (
             <form className="form-inline" onSubmit={this.handleSubmit}>
-
                 <Header text="Collection name: " />
 
                 <div className="form-group">
@@ -68,19 +61,14 @@ class CollectionRenameForm extends Component {
                         style={inputStyle}
                         onChange={this.handleInputValueChange}
                         value={inputValue}
-                        ref={input => {this.collectionNameInput = input;}}
+                        ref={input => {
+                            this.collectionNameInput = input;
+                        }}
                     />
                 </div>
 
-                <Button
-                    label="Change"
-                    handleClick={this.handleFormSubmit}
-                />
-                <Button
-                    label="Cancel"
-                    handleClick={this.handleFormCancel}
-                />
-
+                <Button label="Change" handleClick={this.handleFormSubmit} />
+                <Button label="Cancel" handleClick={this.handleFormCancel} />
             </form>
         );
     }

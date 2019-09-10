@@ -3,60 +3,63 @@ import ReactDOMServer from "react-dom/server";
 import CollectionControls from "./CollectionControls";
 import TweetList from "./TweetList";
 import Header from "./Header";
+import CollectionUtils from "../utils/CollectionUtils";
+import CollectionStore from "../stores/CollectionStore";
 
 class Collection extends Component {
-  createHTMLMarkupStr = () => {
-    const { tweets } = this.props;
-
-    const htmlStr = ReactDOMServer.renderToStaticMarkup(
-      <TweetList tweets={tweets} />
-    );
-
-    const htmlMarkup = {
-      html: htmlStr
+    state = {
+        collectionTweets: CollectionStore.getCollectionTweets()
     };
 
-    return JSON.stringify(htmlMarkup);
-  };
-
-  getTweetIdsList = () => {
-    return Object.keys(this.props.tweets);
-  };
-
-  getNumTweetCollection = () => {
-    return this.getTweetIdsList().length;
-  };
-
-  render() {
-    const numTweetInCollection = this.getNumTweetCollection();
-
-    if (numTweetInCollection > 0) {
-      const {
-        tweets,
-        onRemoveTweetFromCollection,
-        onRemoveAllTweetsFromCollection
-      } = this.props;
-
-      const htmlMarkup = this.createHTMLMarkupStr();
-
-      return (
-        <div>
-          <CollectionControls
-            numberOfTweetsInCollection={numTweetInCollection}
-            htmlMarkup={htmlMarkup}
-            onRemoveAllTweetsFromCollection={onRemoveAllTweetsFromCollection}
-          />
-
-          <TweetList
-            tweets={tweets}
-            onRemoveTweetFromCollection={onRemoveTweetFromCollection}
-          />
-        </div>
-      );
+    componentDidMount() {
+        CollectionStore.addChangeListener(this.onCollectionChange);
     }
 
-    return <Header text="Your collection is empty" />;
-  }
+    componentWillUnmount() {
+        CollectionStore.removeChangeListener(this.onCollectionChange);
+    }
+
+    onCollectionChange = () => {
+        this.setState({
+            collectionTweets: CollectionStore.getCollectionTweets()
+        });
+    };
+
+    createHTMLMarkupStr = () => {
+        const { collectionTweets } = this.state;
+        const htmlStr = ReactDOMServer.renderToStaticMarkup(
+            <TweetList tweets={collectionTweets} />
+        );
+
+        const htmlMarkup = {
+            html: htmlStr
+        };
+
+        return JSON.stringify(htmlMarkup);
+    };
+
+    render() {
+        const { collectionTweets } = this.state;
+        const numTweetInCollection = CollectionUtils.getNumberOfTweetsInCollection(
+            collectionTweets
+        );
+
+        if (numTweetInCollection > 0) {
+            const htmlMarkup = this.createHTMLMarkupStr();
+            return (
+                <div>
+                    <CollectionControls
+                        numberOfTweetsInCollection={numTweetInCollection}
+                        htmlMarkup={htmlMarkup}
+                    />
+
+                    <TweetList tweets={collectionTweets} />
+                </div>
+            );
+        }
+
+        return <Header text="Your collection is empty" />;
+    }
 }
 
 export default Collection;

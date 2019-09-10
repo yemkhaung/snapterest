@@ -3,73 +3,69 @@ import CollectionRenameForm from "./CollectionRenameForm";
 import CollectionExportForm from "./CollectionExportForm";
 import Button from "./Button";
 import Header from "./Header";
+import CollectionStore from "../stores/CollectionStore";
+import CollectionActionCreators from "../actions/CollectionActionCreators";
 
 class CollectionControls extends Component {
-  state = {
-    name: "new",
-    isEditingName: false
-  };
+    state = {
+        isEditingName: false
+    };
 
-  getHeaderText = () => {
-    const { name } = this.state;
-    const { numberOfTweetsInCollection: numTweetsInCollection } = this.props;
+    getHeaderText = () => {
+        const { numberOfTweetsInCollection } = this.props;
+        const name = CollectionStore.getCollectionName();
+        let text;
 
-    let text;
-    if (numTweetsInCollection == 1) {
-      text = `${numTweetsInCollection} tweet in your`;
-    } else {
-      text = `${numTweetsInCollection} tweets in your`;
+        if (numberOfTweetsInCollection == 1) {
+            text = `${numberOfTweetsInCollection} tweet in your`;
+        } else {
+            text = `${numberOfTweetsInCollection} tweets in your`;
+        }
+
+        return (
+            <span>
+                {text} <strong>{name}</strong> collection
+            </span>
+        );
+    };
+
+    toggleEditCollectionName = () => {
+        this.setState(prevState => ({
+            isEditingName: !prevState.isEditingName
+        }));
+    };
+
+    removeAllTweetsFromCollection = () => {
+        CollectionActionCreators.removeAllTweetsFromCollection();
+    };
+
+    render() {
+        const { isEditingName } = this.state;
+        const { htmlMarkup } = this.props;
+
+        if (isEditingName) {
+            return (
+                <CollectionRenameForm
+                    onCancelCollectionNameChange={this.toggleEditCollectionName}
+                />
+            );
+        }
+
+        return (
+            <div>
+                <Header text={this.getHeaderText()} />
+                <Button
+                    label="Rename collection"
+                    handleClick={this.toggleEditCollectionName}
+                />
+                <Button
+                    label="Empty collection"
+                    handleClick={this.removeAllTweetsFromCollection}
+                />
+                <CollectionExportForm htmlMarkup={htmlMarkup} />
+            </div>
+        );
     }
-
-    return (
-        <span>
-            {text} <strong>{name}</strong> collection
-        </span>
-    );
-  };
-
-  setCollectionName = name => {
-    this.setState({
-      name: name,
-      isEditingName: false
-    });
-  };
-
-  toggleEditCollectionName = () => {
-    this.setState(prevState => ({
-      isEditingName: !prevState.isEditingName
-    }));
-  };
-
-  render() {
-    const { name, isEditingName } = this.state;
-    const { htmlMarkup, onRemoveAllTweetsFromCollection } = this.props;
-
-    if (isEditingName) {
-      return (
-        <CollectionRenameForm
-          name={name}
-          onChangeCollectionName={this.setCollectionName}
-          onCancelCollectionNameChange={this.toggleEditCollectionName}
-        />
-      );
-    }
-
-    return (
-      <div>
-        <Header text={this.getHeaderText()} />
-        <Button
-          label="Rename collection"
-          handleClick={this.toggleEditCollectionName}
-        />
-        <Button
-          label="Empty collection"
-          handleClick={onRemoveAllTweetsFromCollection}
-        />
-        <CollectionExportForm htmlMarkup={htmlMarkup} />
-      </div>
-    );
-  }
 }
 
 export default CollectionControls;
